@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Гра Tetris: класичний одиночний режим.">
+    <title>Tetris — Класичний режим</title>
+  </head>
+  <body>
+    <!-- Посилання для переходу до основного вмісту (Accessibility) -->
+    <a href="#main-content">Перейти до основного вмісту</a>
+
+    <header>
+      <h1>TETRIS</h1>
+      <p>CLASSIC • SOLO</p>
+      
+      <!-- Локальна навігація (вимога практичної: якщо немає глобального меню, робимо якірну) -->
+      <nav aria-label="Навігація сторінкою">
+        <ul>
+          <li><a href="#game-board">Ігрове поле</a></li>
+          <li><a href="#game-panel">Статистика та управління</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      
+      <!-- Головний контент: ігрове поле -->
+      <section id="game-board">
+        <h2>Поточна гра</h2>
+        <!-- Замість порожнього div використовуємо зображення стану поля для семантики -->
+        <img src="images/game-board-state.svg" alt="Ігрове поле з фігурою, що падає">
+      </section>
+
+      <!-- Додатковий вміст (aside): статистика, наступна фігура, керування -->
+      <aside id="game-panel" aria-label="Ігрова панель">
+        
+        <section id="next-piece">
+          <h3>NEXT PIECE</h3>
+          <img src="images/next-piece.svg" alt="Наступна фігура: жовта T-подібна">
+        </section>
+
+        <section id="score-info">
+          <h3>SCORE</h3>
+          <!-- Технічне групування (div) для відокремлення блоку рахунку -->
+          <div class="score-wrapper">
+            <p><strong>14,820</strong></p>
+            <p>LEVEL 06</p>
+          </div>
+        </section>
+
+        <!-- Кнопка паузи (як посилання, оскільки JS заборонено) -->
+        <a href="#pause" id="pause-action">PAUSE</a>
+
+        <section id="controls">
+          <h3>CONTROLS</h3>
+          <ul>
+            <li>← → MOVE</li>
+            <li>↑ ROTATE</li>
+            <li>↓ DROP</li>
+          </ul>
+        </section>
+
+      </aside>
+
+    </main>
+
+    <footer>
+      <!-- Дані з екрана головного меню, перенесені у футер для повноти -->
+      <p>v1.0 • CLASSIC MODE</p>
+      <address>
+        Розробник: Миколайчук Микола, П-325<br>
+        Бердичівський фаховий коледж промисловості, економіки та права
+      </address>
+    </footer>
+  </body>
+</html>
