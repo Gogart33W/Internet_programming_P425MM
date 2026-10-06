@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вхід — Tetris</title>
+</head>
+<body>
+  <a href="#main-content">Перейти до основного вмісту</a>
+  
+  <header>
+    <h1>Вхід в акаунт TETRIS</h1>
+  </header>
+
+  <main id="main-content">
+    <p>Увійдіть, щоб зберігати свої рекорди.</p>
+    
+    <form action="/api/auth/login" method="POST">
+      <div>
+        <label for="login-email">Електронна пошта</label>
+        <input 
+          id="login-email" 
+          name="email" 
+          type="email" 
+          autocomplete="email" 
+          required
+        >
+      </div>
+      
+      <div>
+        <label for="login-password">Пароль</label>
+        <input 
+          id="login-password" 
+          name="password" 
+          type="password" 
+          autocomplete="current-password" 
+          required
+        >
+      </div>
+
+      <button type="submit">Увійти</button>
+    </form>
+
+    <p>Немає акаунту? <a href="register.html">Зареєструватися</a></p>
+  </main>
+</body>
+</html>

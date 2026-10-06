@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Реєстрація — Tetris</title>
+</head>
+<body>
+  <a href="#main-content">Перейти до основного вмісту</a>
+
+  <header>
+    <h1>Створення акаунту гравця</h1>
+  </header>
+
+  <main id="main-content">
+    <form action="/api/auth/register" method="POST">
+      <div>
+        <label for="reg-nickname">Ігровий нікнейм</label>
+        <input 
+          id="reg-nickname" 
+          name="nickname" 
+          type="text" 
+          autocomplete="username" 
+          minlength="3"
+          maxlength="20"
+          required
+        >
+      </div>
+
+      <div>
+        <label for="reg-email">Електронна пошта</label>
+        <input 
+          id="reg-email" 
+          name="email" 
+          type="email" 
+          autocomplete="email" 
+          required
+        >
+      </div>
+
+      <div>
+        <label for="reg-password">Пароль</label>
+        <p id="pwd-hint">Пароль має містити щонайменше 8 символів.</p>
+        <input 
+          id="reg-password" 
+          name="password" 
+          type="password" 
+          autocomplete="new-password" 
+          minlength="8"
+          aria-describedby="pwd-hint"
+          required
+        >
+      </div>
+
+      <div>
+        <label for="reg-password-confirm">Підтвердження пароля</label>
+        <input 
+          id="reg-password-confirm" 
+          name="passwordConfirm" 
+          type="password" 
+          autocomplete="new-password" 
+          required
+        >
+      </div>
+
+      <div>
+        <label>
+          <input type="checkbox" name="agreeRules" value="true" required>
+          Згоден з правилами чесної гри (без чітів)
+        </label>
+      </div>
+
+      <button type="submit">Зареєструватися</button>
+    </form>
+    
+    <p>Вже є акаунт? <a href="login.html">Увійти</a></p>
+  </main>
+</body>
+</html>

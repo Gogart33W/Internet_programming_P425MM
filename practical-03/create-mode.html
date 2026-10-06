@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Створити режим — Tetris</title>
+</head>
+<body>
+  <a href="#main-content">Перейти до основного вмісту</a>
+
+  <header>
+    <h1>Налаштування кастомного режиму</h1>
+  </header>
+
+  <main id="main-content">
+    <form action="/api/game/custom-mode" method="POST">
+      
+      <div>
+        <label for="mode-title">Назва режиму</label>
+        <p id="title-hint">Наприклад: "Супер швидкість 3000". Від 3 до 50 символів.</p>
+        <input 
+          id="mode-title" 
+          name="title" 
+          type="text" 
+          minlength="3" 
+          maxlength="50" 
+          aria-describedby="title-hint" 
+          required
+        >
+      </div>
+
+      <div>
+        <label for="mode-desc">Опис правил</label>
+        <textarea id="mode-desc" name="description" rows="4" required></textarea>
+      </div>
+
+      <div>
+        <label for="grid-size">Розмір ігрового поля</label>
+        <select id="grid-size" name="gridSize" required>
+          <option value="" disabled selected>Оберіть розмір сітки</option>
+          <option value="classic">Класична (10x20)</option>
+          <option value="wide">Широка (15x20)</option>
+          <option value="narrow">Вузька хардкорна (8x20)</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="start-level">Початковий рівень (швидкість)</label>
+        <input 
+          id="start-level" 
+          name="startLevel" 
+          type="number" 
+          min="1" 
+          max="15" 
+          value="1"
+          required
+        >
+      </div>
+
+      <fieldset>
+        <legend>Доступні бонуси на полі</legend>
+        <label>
+          <input type="checkbox" name="bonuses" value="freeze"> Заморозка часу
+        </label>
+        <label>
+          <input type="checkbox" name="bonuses" value="laser"> Лазер (очищення колонки)
+        </label>
+        <label>
+          <input type="checkbox" name="bonuses" value="swap"> Заміна фігури
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Генератор фігур</legend>
+        <label>
+          <input type="radio" name="rngType" value="modern" required> Сучасний (7-bag)
+        </label>
+        <label>
+          <input type="radio" name="rngType" value="classic"> Класичний (повний рандом)
+        </label>
+      </fieldset>
+
+      <div>
+        <button type="submit">Створити режим</button>
+        <a href="index.html">Скасувати</a>
+      </div>
+    </form>
+  </main>
+</body>
+</html>
