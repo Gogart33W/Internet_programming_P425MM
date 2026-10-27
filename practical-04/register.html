@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Реєстрація нового гравця у сервісі Tetris.">
+  <title>Реєстрація — Tetris</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Перейти до основного вмісту</a>
+
+  <header class="app-header">
+    <div class="container header-inner">
+      <div>
+        <h1 class="page-title">TETRIS</h1>
+        <p class="page-subtitle">NEW PLAYER</p>
+      </div>
+
+      <nav aria-label="Головне меню сайту">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Гра</a></li>
+          <li><a href="create-mode.html" class="nav-link">Створити режим</a></li>
+          <li><a href="login.html" class="nav-link">Вхід</a></li>
+          <li><a href="register.html" class="nav-link active" aria-current="page">Реєстрація</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-content container">
+    <div class="card form-card">
+      <h2 class="page-title" style="font-size: 1.75rem; text-align: center;">Створення акаунту</h2>
+      <p style="text-align: center; color: var(--color-text-muted); margin-block-end: var(--space-6);">
+        Приєднуйтесь до глобальної таблиці рекордів.
+      </p>
+
+      <form action="/api/auth/register" method="POST">
+        <div class="form-group">
+          <label for="reg-nickname" class="field-label">Ігровий нікнейм</label>
+          <input 
+            id="reg-nickname" 
+            name="nickname" 
+            type="text" 
+            class="field-control"
+            placeholder="TetrisMaster"
+            autocomplete="username" 
+            minlength="3"
+            maxlength="20"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email" class="field-label">Електронна пошта</label>
+          <input 
+            id="reg-email" 
+            name="email" 
+            type="email" 
+            class="field-control"
+            placeholder="player@example.com"
+            autocomplete="email" 
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password" class="field-label">Пароль</label>
+          <p id="pwd-hint" class="field-hint">Пароль має містити щонайменше 8 символів.</p>
+          <input 
+            id="reg-password" 
+            name="password" 
+            type="password" 
+            class="field-control"
+            placeholder="••••••••"
+            autocomplete="new-password" 
+            minlength="8"
+            aria-describedby="pwd-hint"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password-confirm" class="field-label">Підтвердження пароля</label>
+          <input 
+            id="reg-password-confirm" 
+            name="passwordConfirm" 
+            type="password" 
+            class="field-control"
+            placeholder="••••••••"
+            autocomplete="new-password" 
+            required
+          >
+        </div>
+
+        <div class="form-group" style="margin-block-start: var(--space-4);">
+          <label class="choice-label">
+            <input type="checkbox" name="agreeRules" value="true" required>
+            <span>Згоден з правилами чесної гри (без чітів)</span>
+          </label>
+        </div>
+
+        <div style="margin-block-start: var(--space-6);">
+          <button type="submit" class="button button--primary button--full">Зареєструватися</button>
+        </div>
+      </form>
+      
+      <p style="text-align: center; margin-block-start: var(--space-6); color: var(--color-text-muted);">
+        Вже є акаунт? <a href="login.html" class="link">Увійти</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="container">
+      <p><strong>v1.0 • CLASSIC MODE</strong></p>
+      <address>
+        Розробник: Миколайчук Микола, П-425<br>
+        Бердичівський фаховий коледж промисловості, економіки та права
+      </address>
+    </div>
+  </footer>
+</body>
+</html>

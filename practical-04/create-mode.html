@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Конструктор власних ігрових режимів Tetris.">
+  <title>Створити режим — Tetris</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Перейти до основного вмісту</a>
+
+  <header class="app-header">
+    <div class="container header-inner">
+      <div>
+        <h1 class="page-title">TETRIS</h1>
+        <p class="page-subtitle">CUSTOM MODE CREATOR</p>
+      </div>
+
+      <nav aria-label="Головне меню сайту">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Гра</a></li>
+          <li><a href="create-mode.html" class="nav-link active" aria-current="page">Створити режим</a></li>
+          <li><a href="login.html" class="nav-link">Вхід</a></li>
+          <li><a href="register.html" class="nav-link">Реєстрація</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-content container">
+    <div class="card form-card" style="max-inline-size: 640px;">
+      <h2 class="page-title" style="font-size: 1.75rem; text-align: center;">Налаштування режиму</h2>
+      <p style="text-align: center; color: var(--color-text-muted); margin-block-end: var(--space-6);">
+        Створіть унікальні правила та параметри ігрового поля для нових викликів.
+      </p>
+
+      <form action="/api/game/custom-mode" method="POST">
+        
+        <div class="form-group">
+          <label for="mode-title" class="field-label">Назва режиму</label>
+          <p id="title-hint" class="field-hint">Від 3 до 50 символів (наприклад: "Супер швидкість 3000").</p>
+          <input 
+            id="mode-title" 
+            name="title" 
+            type="text" 
+            class="field-control"
+            placeholder="Введіть назву режиму..."
+            minlength="3" 
+            maxlength="50" 
+            aria-describedby="title-hint" 
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="mode-desc" class="field-label">Опис правил</label>
+          <textarea 
+            id="mode-desc" 
+            name="description" 
+            class="field-control"
+            rows="4" 
+            placeholder="Опишіть особливості та цілі цього режиму..."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="grid-size" class="field-label">Розмір ігрового поля</label>
+          <select id="grid-size" name="gridSize" class="field-control" required>
+            <option value="" disabled selected>Оберіть розмір сітки</option>
+            <option value="classic">Класична (10x20)</option>
+            <option value="wide">Широка (15x20)</option>
+            <option value="narrow">Вузька хардкорна (8x20)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="start-level" class="field-label">Початковий рівень (швидкість)</label>
+          <input 
+            id="start-level" 
+            name="startLevel" 
+            type="number" 
+            class="field-control"
+            min="1" 
+            max="15" 
+            value="1"
+            required
+          >
+        </div>
+
+        <fieldset class="form-group">
+          <legend>Доступні бонуси на полі</legend>
+          <div class="choice-list">
+            <label class="choice-label">
+              <input type="checkbox" name="bonuses" value="freeze">
+              <span>Заморозка часу (сповільнення падіння фігур)</span>
+            </label>
+            <label class="choice-label">
+              <input type="checkbox" name="bonuses" value="laser">
+              <span>Лазер (миттєве очищення заповненої колонки)</span>
+            </label>
+            <label class="choice-label">
+              <input type="checkbox" name="bonuses" value="swap">
+              <span>Заміна поточної фігури на резервну</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <legend>Генератор фігур</legend>
+          <div class="choice-list">
+            <label class="choice-label">
+              <input type="radio" name="rngType" value="modern" required checked>
+              <span>Сучасний збалансований (7-bag randomizer)</span>
+            </label>
+            <label class="choice-label">
+              <input type="radio" name="rngType" value="classic">
+              <span>Класичний (повний випадковий вибір)</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="submit" class="button button--primary">Створити режим</button>
+          <a href="index.html" class="button button--secondary">Скасувати</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="container">
+      <p><strong>v1.0 • CLASSIC MODE</strong></p>
+      <address>
+        Розробник: Миколайчук Микола, П-425<br>
+        Бердичівський фаховий коледж промисловості, економіки та права
+      </address>
+    </div>
+  </footer>
+</body>
+</html>

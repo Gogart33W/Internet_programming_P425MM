@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Гра Tetris: класичний одиночний режим з сучасним оформленням засобами CSS.">
+    <title>Tetris — Класичний режим</title>
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body>
+    <!-- Посилання швидкого переходу (Accessibility) -->
+    <a href="#main-content" class="skip-link">Перейти до основного вмісту</a>
+
+    <header class="app-header">
+      <div class="container header-inner">
+        <div>
+          <h1 class="page-title">TETRIS</h1>
+          <p class="page-subtitle">CLASSIC • SOLO</p>
+        </div>
+
+        <nav aria-label="Головне меню сайту">
+          <ul class="nav-list">
+            <li><a href="index.html" class="nav-link active" aria-current="page">Гра</a></li>
+            <li><a href="create-mode.html" class="nav-link">Створити режим</a></li>
+            <li><a href="login.html" class="nav-link">Вхід</a></li>
+            <li><a href="register.html" class="nav-link">Реєстрація</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" class="main-content container">
+      <div class="game-layout">
+        
+        <!-- Головний контент: ігрове поле -->
+        <section id="game-board" class="game-board-card" aria-label="Ігрове поле">
+          <h2 class="section-title">ПОТОЧНА ГРА</h2>
+          <img src="images/game-board-state.svg" alt="Ігрове поле Tetris із фігурою, що падає" width="240" height="400">
+        </section>
+
+        <!-- Додатковий вміст (aside): статистика, наступна фігура, керування -->
+        <aside id="game-panel" class="game-sidebar" aria-label="Ігрова панель">
+          
+          <section id="next-piece" class="card card--compact">
+            <h3 class="section-title">NEXT PIECE</h3>
+            <img src="images/next-piece.svg" alt="Наступна фігура: жовта T-подібна" width="80" height="40">
+          </section>
+
+          <section id="score-info" class="card card--compact stat-box">
+            <h3 class="section-title">SCORE</h3>
+            <div class="score-wrapper">
+              <p class="score-display">14,820</p>
+              <p class="level-display">LEVEL 06</p>
+            </div>
+          </section>
+
+          <!-- Кнопка паузи -->
+          <a href="#pause" id="pause-action" class="button button--secondary button--full">PAUSE</a>
+
+          <section id="controls" class="card card--compact">
+            <h3 class="section-title">CONTROLS</h3>
+            <ul class="controls-list">
+              <li><span>← →</span> MOVE</li>
+              <li><span>↑</span> ROTATE</li>
+              <li><span>↓</span> DROP</li>
+            </ul>
+          </section>
+
+        </aside>
+
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <div class="container">
+        <p><strong>v1.0 • CLASSIC MODE</strong></p>
+        <address>
+          Розробник: Миколайчук Микола, П-425<br>
+          Бердичівський фаховий коледж промисловості, економіки та права
+        </address>
+      </div>
+    </footer>
+  </body>
+</html>
