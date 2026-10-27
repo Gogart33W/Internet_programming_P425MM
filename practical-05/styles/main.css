@@ -1,0 +1,613 @@
+/* ==========================================================================
+   ПРАКТИЧНА РОБОТА №5: СТВОРЕННЯ АДАПТИВНОГО ВЕБІНТЕРФЕЙСУ
+   Архітектура: Mobile-First, Flexbox (1D), CSS Grid (2D), Fluid Sizing
+   Проєкт: Tetris Interface (БФКПЕП, Миколайчук М.О., група П-425)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TOKENS ТА ДИЗАЙН-КОНСТАНТИ (:root)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Кольорова палітра */
+  --color-bg: #0b0e17;
+  --color-surface: #141824;
+  --color-surface-hover: #1c2235;
+  --color-surface-active: #222a42;
+  --color-border: #252b3d;
+  --color-border-subtle: #1e2436;
+  
+  --color-primary: #7928ca;
+  --color-primary-hover: #9333ea;
+  --color-primary-active: #6b21a8;
+  
+  --color-accent: #38bdf8;
+  --color-accent-hover: #0ea5e9;
+  
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-text-dim: #64748b;
+  
+  --color-danger: #ef4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.12);
+  --color-success: #22c55e;
+  
+  /* Відступи (Fluid & Content-driven Spacing) */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-12: 3rem;    /* 48px */
+  
+  /* Радіуси скруглення */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-full: 9999px;
+  
+  /* Типографіка */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  
+  /* Тіні */
+  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px rgba(121, 40, 202, 0.35);
+  --shadow-focus: 0 0 0 3px rgba(56, 189, 248, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   2. MOBILE-FIRST BASE & RESET
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  overflow-wrap: break-word; /* Запобігання виходу довгих слів за межі */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Адаптивні медіа */
+img,
+video {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+/* Fluid Container (Вимога методички: min(100% - 2rem, 72rem)) */
+.container {
+  width: min(100% - 2rem, 72rem);
+  margin-inline: auto;
+}
+
+/* Доступне посилання швидкого переходу (Skip link) */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--space-4);
+  background-color: var(--color-accent);
+  color: #000000;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  z-index: 1000;
+  text-decoration: none;
+  transition: top 0.2s ease-in-out;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   3. ТИПОГРАФІКА З FLUID SIZING
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, p {
+  margin-block-start: 0;
+}
+
+.page-title {
+  font-size: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(121, 40, 202, 0.5);
+  margin-block-end: var(--space-1);
+  line-height: 1.2;
+}
+
+.page-subtitle {
+  color: var(--color-text-muted);
+  font-size: clamp(0.75rem, 0.7rem + 0.3vw, 0.875rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-block-end: var(--space-4);
+}
+
+.section-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-block-end: var(--space-3);
+}
+
+.link {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.link:hover {
+  color: #7dd3fc;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   4. HEADER ТА НАВІГАЦІЯ (Mobile-First Flexbox)
+   -------------------------------------------------------------------------- */
+.app-header {
+  background-color: var(--color-surface);
+  border-block-end: 1px solid var(--color-border);
+  padding-block: var(--space-3);
+}
+
+.app-header .header-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+}
+
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  min-height: 44px; /* Мінімальна touch-target зона */
+  border-radius: var(--radius-sm);
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface-hover);
+}
+
+.nav-link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.nav-link[aria-current="page"],
+.nav-link.active {
+  color: #ffffff;
+  background-color: rgba(121, 40, 202, 0.3);
+  border: 1px solid var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   5. ОСНОВНИЙ ВМІСТ ТА СІТКИ (Grid 2D + Flexbox 1D)
+   -------------------------------------------------------------------------- */
+.main-content {
+  flex: 1;
+  padding-block: var(--space-6) var(--space-10);
+}
+
+/* Двовимірна сторінкова сітка для гри Tetris (Mobile-First) */
+.game-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  justify-items: center;
+  width: 100%;
+}
+
+.game-board-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-card);
+  width: 100%;
+  max-inline-size: 300px;
+}
+
+.game-board-card img {
+  border-radius: var(--radius-sm);
+  background-color: #0d111a;
+  border: 1px solid #1c2233;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 240 / 400;
+}
+
+/* Бічна панель: на мобільному сітка карток */
+.game-sidebar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+  gap: var(--space-4);
+  width: 100%;
+  max-inline-size: 480px;
+}
+
+.stat-box {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  text-align: center;
+}
+
+.score-display {
+  font-family: var(--font-mono);
+  font-size: clamp(1.4rem, 1.2rem + 1vw, 1.75rem);
+  font-weight: 900;
+  color: var(--color-accent);
+  line-height: 1.2;
+}
+
+.level-display {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin-block-start: var(--space-1);
+}
+
+.controls-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* --------------------------------------------------------------------------
+   6. КАРТКИ ТА КОМПОНЕНТИ (Card Component)
+   -------------------------------------------------------------------------- */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-card);
+}
+
+.card--compact {
+  padding: var(--space-3);
+}
+
+/* Адаптивна сітка карток через repeat(auto-fit, minmax(...)) */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   7. КНОПКИ ТА ACTION GROUPS (Flexbox 1D)
+   -------------------------------------------------------------------------- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.75rem 1.25rem;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: var(--color-primary);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-glow);
+  cursor: pointer;
+  min-height: 44px; /* Touch target */
+  transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.button:hover {
+  background-color: var(--color-primary-hover);
+  box-shadow: 0 0 24px rgba(147, 51, 234, 0.5);
+  transform: translateY(-1px);
+}
+
+.button:active {
+  background-color: var(--color-primary-active);
+  transform: translateY(0);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.button:disabled,
+.button[aria-disabled="true"] {
+  background-color: #2b3245;
+  color: var(--color-text-dim);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button--secondary {
+  background-color: transparent;
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: none;
+}
+
+.button--secondary:hover {
+  background-color: rgba(56, 189, 248, 0.1);
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.button--full {
+  width: 100%;
+}
+
+/* Група кнопок дій форми (Вимога методички: flex-wrap, gap, flex: 1 1 10rem) */
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-block-start: var(--space-6);
+  width: 100%;
+}
+
+.form-actions > * {
+  flex: 1 1 10rem;
+}
+
+/* --------------------------------------------------------------------------
+   8. ФОРМИ ТА ЕЛЕМЕНТИ ВВОДУ
+   -------------------------------------------------------------------------- */
+.form-card {
+  width: 100%;
+  max-inline-size: 580px;
+  margin-inline: auto;
+}
+
+.form-group {
+  margin-block-end: var(--space-4);
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-block-end: var(--space-1);
+}
+
+.field-hint {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin-block-end: var(--space-2);
+}
+
+.field-control {
+  inline-size: 100%;
+  padding: 0.75rem 1rem;
+  color: var(--color-text);
+  background-color: #0e121d;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 0.9375rem;
+  min-height: 44px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.field-control:hover {
+  border-color: var(--color-accent);
+}
+
+.field-control:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-focus);
+}
+
+.field-control:invalid:not(:placeholder-shown) {
+  border-color: var(--color-danger);
+  background-color: #1a0f14;
+}
+
+.field-control:disabled {
+  background-color: #1a1f2e;
+  color: var(--color-text-dim);
+  border-color: var(--color-border-subtle);
+  cursor: not-allowed;
+}
+
+textarea.field-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+select.field-control {
+  cursor: pointer;
+  appearance: auto;
+}
+
+fieldset.form-group {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  background-color: rgba(20, 24, 36, 0.5);
+}
+
+legend {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text);
+  padding-inline: var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Адаптивна сітка чекбоксів всередині fieldset */
+.choice-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--space-3);
+  margin-block-start: var(--space-2);
+}
+
+.choice-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  cursor: pointer;
+  user-select: none;
+  min-height: 36px;
+}
+
+.choice-label input[type="checkbox"],
+.choice-label input[type="radio"] {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   9. FOOTER
+   -------------------------------------------------------------------------- */
+.app-footer {
+  margin-block-start: auto;
+  background-color: var(--color-surface);
+  border-block-start: 1px solid var(--color-border);
+  padding-block: var(--space-6);
+  font-size: 0.875rem;
+  color: var(--color-text-dim);
+  text-align: center;
+}
+
+.app-footer address {
+  font-style: normal;
+  line-height: 1.6;
+  margin-block-start: var(--space-2);
+}
+
+/* ==========================================================================
+   10. CONTENT-DRIVEN MEDIA QUERIES (Адаптивні переходи)
+   ========================================================================== */
+
+/* --- TABLET BREAKPOINT (min-width: 48rem / 768px) --- */
+@media (min-width: 48rem) {
+  .app-header .header-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: start;
+  }
+
+  .nav-list {
+    width: auto;
+    justify-content: flex-end;
+  }
+
+  /* Перехід гри у двоколонковий Grid-макет */
+  .game-layout {
+    grid-template-columns: 260px 240px;
+    justify-content: center;
+    align-items: start;
+    gap: var(--space-8);
+  }
+
+  .game-board-card {
+    max-inline-size: none;
+  }
+
+  .game-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-inline-size: none;
+  }
+
+  .card {
+    padding: var(--space-6);
+  }
+}
+
+/* --- DESKTOP BREAKPOINT (min-width: 64rem / 1024px) --- */
+@media (min-width: 64rem) {
+  .game-layout {
+    grid-template-columns: 280px 260px;
+    gap: var(--space-12);
+  }
+
+  .form-card {
+    max-inline-size: 640px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   11. PREFERS-REDUCED-MOTION
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
