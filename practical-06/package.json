@@ -1,0 +1,12 @@
+{
+  "name": "tetris-game-modes-pr06",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Практична робота №6. Основи програмування мовою JavaScript - Моделювання даних вебпроєкту Тетріс",
+  "scripts": {
+    "test": "node scripts/mode-service.test.js",
+    "start": "node scripts/mode-service.test.js"
+  },
+  "author": "Миколайчук М. О.",
+  "license": "MIT"
+}
